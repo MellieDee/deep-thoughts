@@ -8,19 +8,20 @@ const db = require('./config/connection');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-const startServer = async () => {
+const initServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: authMiddleware
     // context: ({ req }) => req.headers //see the incoming request and return only the headers. On the resolver side, those headers would become the context parameter.
+    // instead change to authMidWare & every req gets auth check and auth obj passed to resolvers as context
   });
   await server.start();
   server.applyMiddleware({ app });
   console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 };
 
-startServer()
+initServer()
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

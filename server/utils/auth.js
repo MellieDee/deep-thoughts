@@ -24,7 +24,7 @@ module.exports = {
       return req;
     }
 
-    //Users with an invalid token should still be able to request and see all thoughts so wrap in try catch
+    //Users with an invalid token still can request & see thoughts cuz wrapped try...catch
     try {
       // decode and attach user data to request object
       // If secret on jwt.verify() doesn't match  secret used with jwt.sign() object won't be decoded. 
