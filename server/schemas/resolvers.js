@@ -2,6 +2,7 @@ const { User, Thought } = require('../models');
 const { AuthenticationError } = require('apollo-server-express'); // built in error handling
 const { signToken } = require('../utils/auth');
 
+
 //pass parent as  placeholder parameter.  won't be used, but  need something in 1st param spot para so can access username arg from 2nd param.
 //then pass that obj var to fund()
 const resolvers = {
@@ -49,7 +50,8 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
-      const token = signToken(user)
+      const token = signToken(user);
+
       return { token, user };
     },
 

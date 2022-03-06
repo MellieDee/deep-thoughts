@@ -1,14 +1,15 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { authMiddleware } = require('./utils/auth')
+const path = require('path');
 
 const { typeDefs, resolvers } = require('./schemas');
+const { authMiddleware } = require('./utils/auth')
 const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-const initServer = async () => {
+const startServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -21,10 +22,20 @@ const initServer = async () => {
   console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 };
 
-initServer()
+startServer()
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Serve static assets
+// if Node is in production then serve React build
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+// If make req to any route not specified, (ie wildcard route) then load index.html from client - prduction FE build
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+})
 
 db.once('open', () => {
   app.listen(PORT, () => {
