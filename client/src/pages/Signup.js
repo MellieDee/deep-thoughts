@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Signup = () => {
   const [formState, setFormState] = useState({ username: '', email: '', password: '' });
@@ -27,6 +28,8 @@ const Signup = () => {
       const { data } = await addUser({
         variables: { ...formState }
       });
+      // when signup successful => redir to HomePg & token is stored in localStorage
+      Auth.login(data.addUser.token)
       console.log(data); // log destructure data to ensure getting our token
     } catch (e) {
       console.error(e);

@@ -1,10 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import NoMatch from './pages/NoMatch';
-import SingleThought from './pages/SingleThought';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
+import { setContext } from '@apollo/client/link/context'; //enables creation of essentially a midWare function retrieves token & combines it with existing httpLink
 
 import {
   ApolloClient,
@@ -17,6 +13,11 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import NoMatch from './pages/NoMatch';
+import SingleThought from './pages/SingleThought';
+import Profile from './pages/Profile';
 
 
 // estab new link to GraphQL server at /graphql endpoint
@@ -24,11 +25,24 @@ const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
+// setContext() function retrieves  token from localStorage and sets HTTP request headers of every request to include the token, whether req needs it or not
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getitem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 //used constructor funct ApolloClient to instantiate Apollo Client instance and create connection to the endpoint
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 //enable WHOLE app to use Apollo Client;
 //wrap whole App in ApolloProvider & the {client} var is the value for client prop in the provider
 // so everything in JSX will have access to servers API data through the Client
