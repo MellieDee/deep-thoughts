@@ -120,5 +120,6 @@ const resolvers = {
   }
 }
 
-
+// updatedUser obj ID matches the { me } stored in cache
+//when cache is updated, useQuery(QUERY_ME_BASIC) Hook on  homepage causes re-render
 module.exports = resolvers;
