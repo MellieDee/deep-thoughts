@@ -87,12 +87,12 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    addReaction: async (parent, { thoughtId, reactionBody }, context) => {
+    addReaction: async (parent, { thoughtId, reactionText }, context) => {
       if (context.user) {
         const updatedThought = await Thought.findOneAndUpdate(
           { _id: thoughtId },
           {//$push is Mongo
-            $push: { reactions: { reactionBody, username: context.user.username } }
+            $push: { reactions: { reactionText, username: context.user.username } }
           },
           { new: true, runValidators: true }
         );

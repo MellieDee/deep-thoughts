@@ -12,7 +12,7 @@ export const QUERY_THOUGHTS = gql`
         _id
         createdAt
         username
-        reactionBody
+        reactionText
       }
     }
   }
@@ -30,7 +30,7 @@ export const QUERY_THOUGHT = gql`
         _id
         createdAt
         username
-        reactionBody
+        reactionText
       }
     }
   }
@@ -72,7 +72,7 @@ export const QUERY_ME = gql`
         reactions {
           _id
           createdAt
-          reactionBody
+          reactionText
           username
         }
       }

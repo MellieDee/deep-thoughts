@@ -3,7 +3,7 @@ const dateFormat = require('../utils/dateFormat');
 
 const reactionSchema = new Schema(
   {
-    reactionBody: {
+    reactionText: {
       type: String,
       required: true,
       maxlength: 280

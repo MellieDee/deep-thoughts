@@ -55,7 +55,7 @@ db.once('open', async () => {
 
   // create reactions
   for (let i = 0; i < 100; i += 1) {
-    const reactionBody = faker.lorem.words(Math.round(Math.random() * 20) + 1);
+    const reactionText = faker.lorem.words(Math.round(Math.random() * 20) + 1);
 
     const randomUserIndex = Math.floor(Math.random() * createdUsers.ops.length);
     const { username } = createdUsers.ops[randomUserIndex];
@@ -65,7 +65,7 @@ db.once('open', async () => {
 
     await Thought.updateOne(
       { _id: thoughtId },
-      { $push: { reactions: { reactionBody, username } } },
+      { $push: { reactions: { reactionText, username } } },
       { runValidators: true }
     );
   }
