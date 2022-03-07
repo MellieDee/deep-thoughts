@@ -33,7 +33,7 @@ class AuthService {
   getToken() {
 
     //retrieve token
-    return localStorage.getItem('-id_token');
+    return localStorage.getItem('id_token');
   }
 
   // SET token to localStorage

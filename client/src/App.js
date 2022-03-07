@@ -28,7 +28,7 @@ const httpLink = createHttpLink({
 // setContext() function retrieves  token from localStorage and sets HTTP request headers of every request to include the token, whether req needs it or not
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getitem('id_token');
+  const token = localStorage.getItem('id_token');
   return {
     headers: {
       ...headers,
